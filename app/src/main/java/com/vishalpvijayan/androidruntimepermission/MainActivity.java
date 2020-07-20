@@ -58,21 +58,26 @@ public class MainActivity extends AppCompatActivity {
                     public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
                         permissionToken.continuePermissionRequest();
                     }
-                });
+                }).check();
                 break;
             case R.id.btnMultiplePermission:
                 Dexter.withContext(MainActivity.this).withPermissions(Manifest.permission.READ_EXTERNAL_STORAGE,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE).withListener(new MultiplePermissionsListener() {
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport multiplePermissionsReport) {
-
+                        if(multiplePermissionsReport.areAllPermissionsGranted()){
+                            Toast.makeText(MainActivity.this, "All permission Granted", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Toast.makeText(MainActivity.this, "Please Grant all the permission", Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                     @Override
                     public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
 
                     }
-                });
+                }).check();
                 break;
         }
     }
